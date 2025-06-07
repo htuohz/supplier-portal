@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Supplier from '@/models/Supplier';
 
+interface MongooseError extends Error {
+    name: string;
+    message: string;
+    code?: number;
+}
+
 export async function PUT(req: NextRequest) {
     try {
         await connectDB();
@@ -46,10 +52,11 @@ export async function PUT(req: NextRequest) {
             ...supplierData
         });
 
-    } catch (error: any) {
-        console.error('Login error:', error);
+    } catch (error) {
+        const serverError = error as MongooseError;
+        console.error('Login error:', serverError);
         return NextResponse.json(
-            { message: 'Internal Server Error', details: error.message },
+            { message: 'Internal Server Error', details: serverError.message },
             { status: 500 }
         );
     }

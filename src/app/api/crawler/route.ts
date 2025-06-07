@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import connectDB from '@/lib/mongodb';
 import Supplier from '@/models/Supplier';
 
@@ -72,15 +72,17 @@ export async function POST(req: NextRequest) {
                 message: 'Supplier information crawled and saved successfully',
                 supplier
             }, { status: 201 });
-        } catch (error: any) {
+        } catch (error) {
+            const axiosError = error as AxiosError;
             return NextResponse.json(
-                { error: 'Failed to crawl the website', details: error.message },
+                { error: 'Failed to crawl the website', details: axiosError.message },
                 { status: 500 }
             );
         }
-    } catch (error: any) {
+    } catch (error) {
+        const serverError = error as Error;
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: serverError.message },
             { status: 500 }
         );
     }

@@ -3,6 +3,12 @@ import connectDB from '@/lib/mongodb';
 import Supplier from '@/models/Supplier';
 import mongoose from 'mongoose';
 
+interface MongooseError extends Error {
+    name: string;
+    message: string;
+    code?: number;
+}
+
 // 获取单个供应商
 export async function GET(
     req: NextRequest,
@@ -30,9 +36,10 @@ export async function GET(
         }
 
         return NextResponse.json(supplier);
-    } catch (error: any) {
+    } catch (error) {
+        const mongoError = error as MongooseError;
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: mongoError.message },
             { status: 500 }
         );
     }
@@ -71,16 +78,17 @@ export async function PUT(
         }
 
         return NextResponse.json(supplier);
-    } catch (error: any) {
-        if (error.name === 'ValidationError') {
+    } catch (error) {
+        const mongoError = error as MongooseError;
+        if (mongoError.name === 'ValidationError') {
             return NextResponse.json(
-                { error: 'Validation Error', details: error.message },
+                { error: 'Validation Error', details: mongoError.message },
                 { status: 400 }
             );
         }
 
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: mongoError.message },
             { status: 500 }
         );
     }
@@ -113,9 +121,10 @@ export async function DELETE(
         }
 
         return NextResponse.json({ message: 'Supplier deleted successfully' });
-    } catch (error: any) {
+    } catch (error) {
+        const mongoError = error as MongooseError;
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: mongoError.message },
             { status: 500 }
         );
     }

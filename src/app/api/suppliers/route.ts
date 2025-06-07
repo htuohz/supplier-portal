@@ -2,6 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Supplier from '@/models/Supplier';
 
+interface MongooseError extends Error {
+    name: string;
+    message: string;
+    code?: number;
+}
+
+interface SearchQuery {
+    $text?: { $search: string };
+    [key: string]: { $search: string } | undefined;
+}
+
 export async function GET(req: NextRequest) {
     try {
         await connectDB();
@@ -11,7 +22,7 @@ export async function GET(req: NextRequest) {
         const limit = parseInt(searchParams.get('limit') || '10');
         const search = searchParams.get('search') || '';
 
-        const query: any = {};
+        const query: SearchQuery = {};
         if (search) {
             query.$text = { $search: search };
         }
@@ -35,9 +46,10 @@ export async function GET(req: NextRequest) {
                 totalPages: Math.ceil(total / limit)
             }
         });
-    } catch (error: any) {
+    } catch (error) {
+        const mongoError = error as MongooseError;
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: mongoError.message },
             { status: 500 }
         );
     }
@@ -52,16 +64,17 @@ export async function POST(req: NextRequest) {
         const supplier = await Supplier.create(body);
 
         return NextResponse.json(supplier, { status: 201 });
-    } catch (error: any) {
-        if (error.name === 'ValidationError') {
+    } catch (error) {
+        const mongoError = error as MongooseError;
+        if (mongoError.name === 'ValidationError') {
             return NextResponse.json(
-                { error: 'Validation Error', details: error.message },
+                { error: 'Validation Error', details: mongoError.message },
                 { status: 400 }
             );
         }
 
         return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
+            { error: 'Internal Server Error', details: mongoError.message },
             { status: 500 }
         );
     }
