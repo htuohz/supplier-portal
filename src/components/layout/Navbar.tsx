@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -56,18 +57,13 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+          <LanguageSwitcher />
           <Link
-            href="/login"
-            className="text-sm font-semibold leading-6 text-gray-900 mr-4 hover:text-blue-600"
+            href="/admin"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Log in
-          </Link>
-          <Link
-            href="/register"
-            className="rounded-md bg-blue-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            Register
+            Admin Portal
           </Link>
         </div>
       </nav>
@@ -108,21 +104,15 @@ export default function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-              </div>
-              <div className="py-6">
+                <div className="px-3 py-2">
+                  <LanguageSwitcher />
+                </div>
                 <Link
-                  href="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  href="/admin"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white bg-blue-600 hover:bg-blue-700"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="mt-4 block rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-base font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Register
+                  Admin Portal
                 </Link>
               </div>
             </div>

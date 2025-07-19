@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
   images: {
     domains: ['localhost'],
     remotePatterns: [
@@ -15,9 +12,14 @@ const nextConfig = {
   env: {
     MONGODB_URI: process.env.MONGODB_URI,
   },
-  webpack: (config) => {
+  webpack: config => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;
+  },
+  i18n: {
+    locales: ['en', 'zh'],
+    defaultLocale: 'en',
+    localeDetection: true,
   },
 };
 

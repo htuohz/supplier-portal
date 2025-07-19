@@ -7,7 +7,7 @@ export interface ISupplier {
     mainProducts: string[];
     contactPerson: string;
     email: string;
-    password: string;
+    password?: string; // 将密码字段标记为可选
     phone: string;
     address: {
         country: string;
@@ -57,8 +57,18 @@ const supplierSchema = new mongoose.Schema<ISupplier, SupplierModel, ISupplierMe
         },
         password: {
             type: String,
-            required: [true, 'Password is required'],
-            minlength: [6, 'Password must be at least 6 characters long'],
+            required: false, // 密码不是必填项
+            validate: {
+                validator: function (v: string | null | undefined) {
+                    // 如果密码为空字符串、null或undefined，则验证通过
+                    if (v === '' || v === null || v === undefined) {
+                        return true;
+                    }
+                    // 否则，密码长度必须至少为6个字符
+                    return v.length >= 6;
+                },
+                message: 'Password must be at least 6 characters long'
+            }
         },
         phone: {
             type: String,
@@ -129,7 +139,8 @@ supplierSchema.index({
 
 // 密码加密中间件
 supplierSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+    // 如果密码不存在或未被修改，则跳过加密步骤
+    if (!this.password || !this.isModified('password')) return next();
 
     try {
         const salt = await bcrypt.genSalt(10);

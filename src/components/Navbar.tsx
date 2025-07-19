@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -20,9 +20,9 @@ export default function Navbar() {
               <Link
                 href="/"
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                  pathname === "/"
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  pathname === '/'
+                    ? 'border-blue-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 Home
@@ -30,10 +30,9 @@ export default function Navbar() {
               <Link
                 href="/suppliers"
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                  pathname === "/suppliers" ||
-                  pathname.startsWith("/suppliers/")
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  pathname === '/suppliers' || pathname.startsWith('/suppliers/')
+                    ? 'border-blue-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 Suppliers
@@ -41,9 +40,9 @@ export default function Navbar() {
               <Link
                 href="/about"
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                  pathname === "/about"
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  pathname === '/about'
+                    ? 'border-blue-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 About
@@ -51,9 +50,9 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                  pathname === "/contact"
-                    ? "border-blue-500 text-gray-900"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  pathname === '/contact'
+                    ? 'border-blue-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 Contact
@@ -77,9 +76,9 @@ export default function Navbar() {
           <Link
             href="/"
             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === "/"
-                ? "bg-blue-50 border-blue-500 text-blue-700"
-                : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+              pathname === '/'
+                ? 'bg-blue-50 border-blue-500 text-blue-700'
+                : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
             }`}
           >
             Home
@@ -87,9 +86,9 @@ export default function Navbar() {
           <Link
             href="/suppliers"
             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === "/suppliers" || pathname.startsWith("/suppliers/")
-                ? "bg-blue-50 border-blue-500 text-blue-700"
-                : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+              pathname === '/suppliers' || pathname.startsWith('/suppliers/')
+                ? 'bg-blue-50 border-blue-500 text-blue-700'
+                : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
             }`}
           >
             Suppliers
@@ -97,9 +96,9 @@ export default function Navbar() {
           <Link
             href="/about"
             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === "/about"
-                ? "bg-blue-50 border-blue-500 text-blue-700"
-                : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+              pathname === '/about'
+                ? 'bg-blue-50 border-blue-500 text-blue-700'
+                : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
             }`}
           >
             About
@@ -107,9 +106,9 @@ export default function Navbar() {
           <Link
             href="/contact"
             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === "/contact"
-                ? "bg-blue-50 border-blue-500 text-blue-700"
-                : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+              pathname === '/contact'
+                ? 'bg-blue-50 border-blue-500 text-blue-700'
+                : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
             }`}
           >
             Contact
@@ -117,9 +116,9 @@ export default function Navbar() {
           <Link
             href="/admin"
             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === "/admin"
-                ? "bg-blue-50 border-blue-500 text-blue-700"
-                : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+              pathname === '/admin'
+                ? 'bg-blue-50 border-blue-500 text-blue-700'
+                : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
             }`}
           >
             Admin Portal
