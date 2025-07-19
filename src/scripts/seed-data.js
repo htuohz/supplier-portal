@@ -1,31 +1,11 @@
 // 这个脚本用于生成模拟的供应商数据
-import { Schema, model, connect, connection, Document, Model } from 'mongoose';
+import { Schema, model, connect, connection } from 'mongoose';
+
 // 直接使用MongoDB连接字符串，不依赖dotenv
 const MONGODB_URI = 'mongodb://localhost:27017/supplier_portal';
 
 // 供应商模型定义
-
-interface SupplierDocument extends Document {
-  companyName: string;
-  mainProducts: string[];
-  contactPerson: string;
-  email: string;
-  phone: string;
-  address: {
-    country: string;
-    province: string;
-    city: string;
-    detail: string;
-  };
-  description: string;
-  website: string;
-  establishedYear: number;
-  employeeCount: string;
-  certifications: string[];
-  images: string[];
-}
-
-const supplierSchema = new Schema<SupplierDocument>(
+const supplierSchema = new Schema(
   {
     companyName: String,
     mainProducts: [String],
@@ -50,8 +30,15 @@ const supplierSchema = new Schema<SupplierDocument>(
   }
 );
 
-const Supplier: Model<SupplierDocument> =
-  connection.models.Supplier || model<SupplierDocument>('Supplier', supplierSchema);
+// 创建模型
+let Supplier;
+try {
+  Supplier = model('Supplier');
+} catch (error) {
+  Supplier = model('Supplier', supplierSchema);
+  console.error('Model not found, creating a new one:', error.message);
+}
+
 // 模拟数据
 const mockSuppliers = [
   {
