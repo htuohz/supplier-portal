@@ -91,7 +91,9 @@ function AddSupplierForm() {
 
     try {
       // Make actual API call to create supplier
-      console.log('Creating new supplier:', supplierData);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Creating new supplier:', supplierData);
+      }
 
       const response = await fetch('/api/suppliers', {
         method: 'POST',
@@ -107,7 +109,9 @@ function AddSupplierForm() {
       }
 
       const result = await response.json();
-      console.log('Supplier created successfully:', result);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Supplier created successfully:', result);
+      }
 
       setSubmitStatus('success');
 

@@ -180,7 +180,7 @@ function AdminDashboard() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {t('updatedProduct')}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">LCD Display 24"</td>
+                <td className="px-6 py-4 text-sm text-gray-500">LCD Display 24&quot;</td>
               </tr>
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-06-13</td>

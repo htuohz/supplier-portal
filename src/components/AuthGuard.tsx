@@ -2,11 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user is authenticated

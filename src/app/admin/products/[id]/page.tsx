@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import I18nProvider from '@/components/I18nProvider';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 // Mock product data
-const mockProducts = [
+const mockProducts: Product[] = [
   {
     id: '1',
     name: 'LCD Display 24"',
@@ -97,11 +98,30 @@ export default function ProductDetailPage() {
   );
 }
 
+// 定义产品类型接口
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  supplier: string;
+  supplierId: string;
+  price: number;
+  costPrice: number;
+  stock: number;
+  sku: string;
+  description: string;
+  specifications: Record<string, string | number>;
+  warranty?: string;
+  reorderLevel: number;
+  images: string[];
+  dateAdded: string;
+  lastUpdated: string;
+}
+
 function ProductDetail() {
   const { t } = useTranslation();
   const params = useParams();
-  const router = useRouter();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -203,14 +223,12 @@ function ProductDetail() {
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 mb-4">
               <div className="h-64 bg-gray-300 flex items-center justify-center text-gray-500">
                 {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[0]}
+                  <Image
+                    src={product.images[0] || 'https://via.placeholder.com/300x300?text=No+Image'}
                     alt={product.name}
                     className="object-cover w-full h-full"
-                    onError={e => {
-                      (e.target as HTMLImageElement).src =
-                        'https://via.placeholder.com/300x300?text=No+Image';
-                    }}
+                    width={500}
+                    height={500}
                   />
                 ) : (
                   <span>No Image</span>

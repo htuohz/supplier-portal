@@ -207,8 +207,8 @@ export default function SuppliersPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {currentSuppliers.map(supplier => (
             <Link
-              href={`/suppliers/${supplier._id || supplier.id}`}
-              key={supplier._id || supplier.id}
+              href={`/suppliers/${supplier._id || supplier._id}`}
+              key={supplier._id || supplier._id}
               className="block"
             >
               <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">

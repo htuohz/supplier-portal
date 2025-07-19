@@ -112,9 +112,8 @@ function ProductsList() {
     return matchesSearch && matchesCategory;
   });
 
-  const handleDelete = (productId: string) => {
-    console.log(`Delete product with ID: ${productId}`);
-    // In a real application, this would make an API call to delete the product
+  const handleDelete = () => {
+    // In a real application, this would make an API call to delete the product with ID: ${productId}
     // After successful deletion, you would update the product list
     setShowDeleteConfirm(null);
   };
@@ -283,7 +282,7 @@ function ProductsList() {
                               {t('cancel')}
                             </button>
                             <button
-                              onClick={() => handleDelete(product.id)}
+                              onClick={() => handleDelete()}
                               className="px-3 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
                             >
                               {t('delete')}

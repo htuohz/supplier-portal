@@ -138,18 +138,22 @@ async function seedDatabase() {
   try {
     // 连接数据库
     await connect(MONGODB_URI);
+    // 有意保留的脚本执行日志
     console.log('Connected to MongoDB');
 
     // 清空现有数据
     await Supplier.deleteMany({});
+    // 有意保留的脚本执行日志
     console.log('Cleared existing suppliers');
 
     // 插入新数据
     const result = await Supplier.insertMany(mockSuppliers);
+    // 有意保留的脚本执行日志
     console.log(`Successfully inserted ${result.length} suppliers`);
 
     // 关闭连接
     await connection.close();
+    // 有意保留的脚本执行日志
     console.log('Database connection closed');
 
     process.exit(0);

@@ -6,6 +6,16 @@ import { useTranslation } from 'react-i18next';
 import I18nProvider from '@/components/I18nProvider';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
+interface Supplier {
+  id: string;
+  companyName: string;
+  mainProducts: string[];
+  country: string;
+  city: string;
+  contactPerson: string;
+  email: string;
+}
+
 export default function SuppliersPage() {
   return (
     <I18nProvider>
@@ -17,9 +27,9 @@ export default function SuppliersPage() {
 function SuppliersList() {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [suppliers, setSuppliers] = useState([]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -30,8 +40,9 @@ function SuppliersList() {
         }
         const data = await response.json();
         setSuppliers(data.suppliers);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : String(error));
+        console.error('Error fetching suppliers:', error);
       } finally {
         setLoading(false);
       }
@@ -211,8 +222,12 @@ function SuppliersList() {
                                 throw new Error('Failed to delete supplier');
                               }
                               setSuppliers(suppliers.filter(s => s.id !== supplier.id));
-                            } catch (err) {
-                              alert(t('deleteFailed') + ': ' + err.message);
+                            } catch (error) {
+                              alert(
+                                t('deleteFailed') +
+                                  ': ' +
+                                  (error instanceof Error ? error.message : String(error))
+                              );
                             }
                           }
                         }}

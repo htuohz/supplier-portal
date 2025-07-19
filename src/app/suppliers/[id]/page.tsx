@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -12,7 +12,6 @@ const DEFAULT_IMAGE = 'https://via.placeholder.com/800x400?text=Company+Image';
 
 export default function SupplierDetail() {
   const { id } = useParams();
-  const router = useRouter();
   const [supplier, setSupplier] = useState<ISupplier | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,7 +48,27 @@ export default function SupplierDetail() {
         setSupplier(data);
 
         // 获取相关供应商
-        fetchRelatedSuppliers(data);
+        const fetchRelatedSuppliers = async (currentSupplier: ISupplier) => {
+          try {
+            // 这里可以根据当前供应商的国家或主要产品来获取相关供应商
+            const response = await fetch(
+              `/api/suppliers?country=${currentSupplier.address?.country || ''}&limit=4`
+            );
+
+            if (!response.ok) {
+              throw new Error('Failed to fetch related suppliers');
+            }
+
+            const data = await response.json();
+            // 过滤掉当前供应商
+            const filtered = data.filter((s: ISupplier) => s._id !== id);
+            setRelatedSuppliers(filtered.slice(0, 3)); // 最多显示3个相关供应商
+          } catch (error) {
+            console.error('Error fetching related suppliers:', error);
+          }
+        };
+
+        await fetchRelatedSuppliers(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -61,26 +80,6 @@ export default function SupplierDetail() {
       fetchSupplier();
     }
   }, [id]);
-
-  const fetchRelatedSuppliers = async (currentSupplier: ISupplier) => {
-    try {
-      // 这里可以根据当前供应商的国家或主要产品来获取相关供应商
-      const response = await fetch(
-        `/api/suppliers?country=${currentSupplier.address?.country || ''}&limit=4`
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch related suppliers');
-      }
-
-      const data = await response.json();
-      // 过滤掉当前供应商
-      const filtered = data.filter((s: ISupplier) => s._id !== id && s.id !== id);
-      setRelatedSuppliers(filtered.slice(0, 3)); // 最多显示3个相关供应商
-    } catch (error) {
-      console.error('Error fetching related suppliers:', error);
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -572,10 +571,13 @@ export default function SupplierDetail() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {relatedSuppliers.map(relatedSupplier => (
                     <div
-                      key={relatedSupplier._id || relatedSupplier.id}
+                      key={relatedSupplier._id || relatedSupplier._id}
                       className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <Link href={`/suppliers/${relatedSupplier._id || relatedSupplier.id}`}>
+                      <Link
+                        href={`/suppliers/${relatedSupplier._id || relatedSupplier._id}`}
+                        className="block"
+                      >
                         <div className="h-40 bg-gray-100 relative">
                           {relatedSupplier.images && relatedSupplier.images.length > 0 ? (
                             <Image

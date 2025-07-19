@@ -7,6 +7,50 @@ import { useTranslation } from 'react-i18next';
 import I18nProvider from '@/components/I18nProvider';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
+// Define types for supplier data
+interface CustomerReference {
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  relationship: string;
+}
+
+interface SupplierData {
+  id: string;
+  companyName: string;
+  mainProducts: string[];
+  contactPerson: string;
+  email: string;
+  phone: string;
+  employeeCount: string;
+  certifications: string[];
+  establishedYear: number;
+  address: {
+    country: string;
+    province?: string;
+    city: string;
+    detailedAddress: string;
+  };
+  website: string;
+  description: string;
+  financialInfo: {
+    annualRevenue: string;
+    paymentTerms: string;
+    currency: string;
+  };
+  supplyCapacity: {
+    monthlyCapacity: string;
+    minimumOrderQuantity: string;
+    leadTime: string;
+  };
+  qualityControl: {
+    testingEquipment: string;
+    inspectionProcess: string;
+    defectRate: string;
+  };
+  customerReferences: CustomerReference[];
+}
+
 // Mock supplier data
 const mockSupplierDetails = {
   id: '1',
@@ -69,7 +113,7 @@ export default function SupplierDetailPage() {
 function SupplierDetail() {
   const { t } = useTranslation();
   const params = useParams();
-  const [supplier, setSupplier] = useState<any>(null);
+  const [supplier, setSupplier] = useState<SupplierData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,9 +129,10 @@ function SupplierDetail() {
         // In a real app, you would fetch based on params.id
         setSupplier(mockSupplierDetails);
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
         setError(t('errorLoadingSupplier'));
         setLoading(false);
+        console.error('Error fetching supplier:', error);
       }
     };
 
@@ -302,7 +347,7 @@ function SupplierDetail() {
         <div className="p-6 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('customerReferences')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {supplier.customerReferences.map((reference: any, index: number) => (
+            {supplier.customerReferences.map((reference: CustomerReference, index: number) => (
               <div key={index} className="bg-gray-50 p-4 rounded-lg">
                 <div className="font-medium text-gray-800">{reference.companyName}</div>
                 <div className="text-sm text-gray-600 mt-1">{reference.contactPerson}</div>
